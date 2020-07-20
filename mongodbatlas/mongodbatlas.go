@@ -93,6 +93,8 @@ type Client struct {
 	OnlineArchives                      OnlineArchiveService
 	Search                              SearchService
 	CustomAWSDNS                        AWSCustomDNSService
+    RealmApps                           RealmAppsService
+    RealmValues                         RealmValuesService
 
 	onRequestCompleted RequestCompletionCallback
 }
@@ -228,6 +230,8 @@ func NewClient(httpClient *http.Client) *Client {
 	c.OnlineArchives = &OnlineArchiveServiceOp{Client: c}
 	c.Search = &SearchServiceOp{Client: c}
 	c.CustomAWSDNS = &AWSCustomDNSServiceOp{Client: c}
+    c.RealmApps = &RealmAppsServiceOp{Client: c}
+    c.RealmValues = &RealmValuesServiceOp{Client: c}
 
 	return c
 }
