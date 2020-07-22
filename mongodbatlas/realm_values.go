@@ -9,7 +9,7 @@ import (
         "log"
 )
 const (
-    realmValuesPath = "/groups/%s/apps/%s/values"
+    realmValuesPath = "groups/%s/apps/%s/values"
 )
 
 
@@ -83,10 +83,10 @@ func (s *RealmValuesServiceOp) AddRealmAuthToRequest(ctx context.Context,request
                 return err
         }
 
-        //log.Printf("REALM AUTH root: %v", root)
+        log.Printf("REALM AUTH root: %v", root)
         currentRealmAuth = root
         token := fmt.Sprintf("Bearer %s", currentRealmAuth.AccessToken)
-        //log.Printf("REALM AUTH token: %s", token)
+        log.Printf("REALM AUTH token: %s", token)
 
         request.Header.Add("Authorization", token )
     return nil
@@ -114,7 +114,7 @@ func (s *RealmValuesServiceOp) List(ctx context.Context, groupID string, appID s
     s.AddRealmAuthToRequest(ctx,req)
     //log.Printf("REALM - check token in header %v", req.Header)
     
-    log.Printf("values List path=%+v",path)
+    //log.Printf("values List path=%+v",path)
 
     //root := new(realmValuesResponse)
     root := make([]RealmValue,0)
@@ -140,7 +140,7 @@ func (s *RealmValuesServiceOp) Get(ctx context.Context, groupID string, appID st
         escapedEntry := url.PathEscape(valueID)
         path := fmt.Sprintf("%s/%s", basePath, escapedEntry)
 
-        path = fmt.Sprintf("%s/%s", realmDefaultBaseURL, path)
+        path = fmt.Sprintf("%s%s", realmDefaultBaseURL, path)
 
         req, err := s.Client.NewRequest(ctx, http.MethodGet,path, nil)
         if err != nil {
@@ -166,7 +166,7 @@ func (s *RealmValuesServiceOp) Create(ctx context.Context, groupID string, appID
 
         path := fmt.Sprintf(realmValuesPath, groupID, appID)
 
-        path = fmt.Sprintf("%s/%s", realmDefaultBaseURL, path)
+        path = fmt.Sprintf("%s%s", realmDefaultBaseURL, path)
 
         req, err := s.Client.NewRequest(ctx, http.MethodPost, path, createRequest)
         if err != nil {
@@ -194,7 +194,7 @@ func (s *RealmValuesServiceOp) Update(ctx context.Context, groupID string, appID
         escapedEntry := url.PathEscape(keyID)
         path := fmt.Sprintf("%s/%s", basePath, escapedEntry)
 
-        path = fmt.Sprintf("%s/%s", realmDefaultBaseURL, path)
+        path = fmt.Sprintf("%s%s", realmDefaultBaseURL, path)
 
         req, err := s.Client.NewRequest(ctx, http.MethodPatch, path, updateRequest)
         if err != nil {
@@ -222,7 +222,7 @@ func (s *RealmValuesServiceOp) Delete(ctx context.Context, groupID, appID string
         escapedEntry := url.PathEscape(keyID)
         path := fmt.Sprintf("%s/%s", basePath, escapedEntry)
 
-        path = fmt.Sprintf("%s/%s", realmDefaultBaseURL, path)
+        path = fmt.Sprintf("%s%s", realmDefaultBaseURL, path)
 
         req, err := s.Client.NewRequest(ctx, http.MethodDelete, path, nil)
         if err != nil {

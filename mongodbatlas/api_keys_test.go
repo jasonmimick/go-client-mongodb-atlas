@@ -297,7 +297,7 @@ func TestAPIKeys_GetAPIKey(t *testing.T) {
 	expected := &APIKey{Desc: "test-desc"}
 
 	if diff := deep.Equal(apiKeys, expected); diff != nil {
-		t.Errorf("Clusters.Get = %v", diff)
+		t.Errorf("ApiKeys.Get = %v", diff)
 	}
 }
 
